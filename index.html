@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Arduino Real-time Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        th {
+            font-weight: bold;
+        }
+
+        .normal-text {
+            text-align: center;
+            font-weight: bold;
+            margin-top: 20px;
+            visibility: hidden;
+            font-size: 24px;
+        }
+    </style>
+    <script>
+        function getCurrentTime() {
+            var currentTime = new Date();
+            return currentTime.toLocaleTimeString();
+        }
+
+        function getRandomHeartRate() {
+            var heartRate = Math.floor(Math.random() * 21) + 70;
+            return heartRate;
+        }
+
+        function updateTable() {
+            var currentTime = getCurrentTime();
+            var heartRate = getRandomHeartRate();
+
+            var table = document.getElementById("data-table");
+            var newRow = table.insertRow();
+
+            var timeCell = newRow.insertCell();
+            timeCell.textContent = currentTime;
+
+            var heartRateCell = newRow.insertCell();
+            heartRateCell.textContent = heartRate;
+
+            // Remove excess rows to only show the latest data
+            if (table.rows.length > 5) {
+                table.deleteRow(1);
+            }
+
+            var normalText = document.getElementById("normal-text");
+            normalText.style.visibility = "visible";
+        }
+
+        setInterval(updateTable, 5000);
+    </script>
+</head>
+<body>
+    <h1>Arduino Real-time Data</h1>
+    <div class="container">
+        <table id="data-table">
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Heart Rate</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <div class="normal-text" id="normal-text">
+            NORMAL
+        </div>
+    </div>
+</body>
+</html>
